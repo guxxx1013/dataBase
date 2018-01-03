@@ -1,0 +1,55 @@
+1. 用一条SQL 语句 查询出每门课都大于80 分的学生姓名
+   select distinct name from table where name not in (select distinct name from table where fenshu<=80)
+   select name from table group by name having min(fenshu)>80
+Tip: “Group By”从字面意义上理解就是根据“By”指定的规则对数据进行分组，所谓的分组就是将一个“数
+据集”划分成若干个“小区域”，然后针对若干个“小区域”进行数据处理。
+
+2. 学生表 如下:
+自动编号 学号 姓名 课程编号 课程名称 分数
+1 2005001 张三 0001 数学 69
+2 2005002 李四 0001 数学 89
+3 2005001 张三 0001 数学 69
+删除除了自动编号不同, 其他都相同的学生冗余信息
+
+A: delete tablename where 自动编号 not in(select min( 自动编号) from tablename group by 学号, 姓名, 课程编号, 课程名称, 分数)
+
+4. 说明：拷贝表( 拷贝数据, 源表名：a 目标表名：b)
+SQL: insert into b(a, b, c) select d,e,f from a;
+
+
+6、编写SQL语句
+1) 创建一张学生表，包含以下信息，学号，姓名，年龄，性别，家庭住址，联系电话
+Create table stu (学号 int ,
+姓名 varchar(8),
+年龄 int,
+性别 varchar(4),
+家庭地址 varchar(50),
+联系电话 int
+);
+
+2) 修改学生表的结构，添加一列信息，学历
+Alter table stu add 学历 varchar(6);
+
+3) 修改学生表的结构，删除一列信息，家庭住址
+Alter table stu drop column 家庭地址
+
+4) 向学生表添加如下信息：
+学号 姓名年龄性别联系电话学历
+1A22男123456小学
+2B21男119中学
+3C23男110高中
+4D18女114大学
+
+Insert into stu values(1,’A’,22,’男’,123456,’小学’)
+Insert into stu values(2,’B’,21,’男’,119,’中学’)
+Insert into stu values(3,’C’,23,’男’,110,’高中’)
+Insert into stu values(4,’D’,18,’女’,114,’大学’)
+
+8) 查询学生表的数据，查询所有信息，列出前25%的记录
+Select top 25 percent * from stu
+
+9) 查询出所有学生的姓名，性别，年龄降序排列
+Select 姓名,性别 from stu order by 年龄 desc
+
+10) 按照性别分组查询所有的平均年龄
+Select avg(年龄) from stu group by 性别
